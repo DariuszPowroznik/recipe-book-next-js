@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql
+    container_name: mysql_container
+    environment:
+      MYSQL_ROOT_PASSWORD: dariuszpass
+      MYSQL_DATABASE: recipe-book
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: dariuszpass
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3306:3306"
+    restart: always
+
+volumes:
+  mysql_data:
