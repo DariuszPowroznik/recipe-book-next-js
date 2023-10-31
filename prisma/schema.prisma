@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String    @id @default(uuid())
+  email      String    @unique
+  password   String
+  name       String
+  surname    String?
+  role       Role      @default(USER)
+  isActive   Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  updateddAt DateTime  @updatedAt
+  Recipes    Recipes[]
+}
+
+model Categories {
+  id         String   @id @default(uuid())
+  name       String   @unique
+  createdAt  DateTime @default(now())
+  updateddAt DateTime @updatedAt
+  Recipes    Recipes? @relation(fields: [recipesId], references: [id])
+  recipesId  String?
+}
+
+model Ingredients {
+  id         String                 @id @default(uuid())
+  name       String                 @unique
+  createdAt  DateTime               @default(now())
+  updateddAt DateTime               @updatedAt
+  recipes    IngredientsOnRecipes[]
+}
+
+model Recipes {
+  id                 String                 @id @default(uuid())
+  name               String                 @unique
+  description        String?
+  image              String?
+  prepareDescription String                 @db.Text
+  createdAt          DateTime               @default(now())
+  updateddAt         DateTime               @updatedAt
+  author             User                   @relation(fields: [authorId], references: [id])
+  authorId           String
+  categories         Categories[]
+  ingredients        IngredientsOnRecipes[]
+}
+
+model IngredientsOnRecipes {
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  quantity     Int
+  quantityUnit String
+  recipe       Recipes     @relation(fields: [recipeId], references: [id])
+  recipeId     String
+  ingredient   Ingredients @relation(fields: [ingredientId], references: [id])
+  ingredientId String
+
+  @@id([recipeId, ingredientId])
+}
+
+enum Role {
+  USER
+  EDITOR
+  ADMIN
+}
