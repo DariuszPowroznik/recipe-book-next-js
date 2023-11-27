@@ -28,5 +28,10 @@ export const translations = {
       registerHelpText:
         'Po rejestracji musisz poczekać na aktywację konta przez administratorów serwisu.',
     },
+    validations: {
+      emptyField: 'To pole jest wymagane',
+      wrongPassword: 'Niepoprawne hasło',
+      wrongEmail: 'Niepoprawny adres email',
+    },
   },
 };
