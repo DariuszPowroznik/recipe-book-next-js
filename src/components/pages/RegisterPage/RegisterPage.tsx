@@ -3,7 +3,7 @@ import NextLink from 'next/link';
 
 import { Box, Typography, Link } from '@mui/material';
 
-import { Register } from 'src/components/organism';
+import { RegisterForm } from 'src/components/organism';
 import { paths } from 'src/shared/const/paths';
 import { translations } from 'src/shared/const/translations';
 
@@ -23,7 +23,7 @@ export const RegisterPage = () => {
       <Typography component="h1" variant="h6" marginBottom={3}>
         {text.authentication.register}
       </Typography>
-      <Register />
+      <RegisterForm />
       <Typography marginTop={3} variant="body2">
         {`${text.authentication.registerLoginText} `}
         <Link

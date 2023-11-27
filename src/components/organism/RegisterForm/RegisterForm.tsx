@@ -7,16 +7,16 @@ import { translations } from 'src/shared/const/translations';
 
 const text = translations.pl;
 
-interface RegisterData {
+interface RegisterFormBean {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
 }
 
-export const Register = () => {
-  const { register, handleSubmit } = useForm<RegisterData>();
-  const onSubmit: SubmitHandler<RegisterData> = data => console.log(data);
+export const RegisterForm = () => {
+  const { register, handleSubmit } = useForm<RegisterFormBean>();
+  const onSubmit: SubmitHandler<RegisterFormBean> = data => console.log(data);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

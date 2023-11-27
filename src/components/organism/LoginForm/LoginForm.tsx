@@ -9,16 +9,16 @@ import styled from './Login.module.scss';
 
 const text = translations.pl;
 
-interface LoginData {
+interface LoginFormBean {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
 }
 
-export const Login = () => {
-  const { register, handleSubmit } = useForm<LoginData>();
-  const onSubmit: SubmitHandler<LoginData> = data => console.log(data);
+export const LoginForm = () => {
+  const { register, handleSubmit } = useForm<LoginFormBean>();
+  const onSubmit: SubmitHandler<LoginFormBean> = data => console.log(data);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
