@@ -3,18 +3,11 @@ import NextLink from 'next/link';
 
 import { Box, Typography, Link } from '@mui/material';
 
-import { Login } from 'src/components/organism';
+import { LoginForm } from 'src/components/organism';
 import { paths } from 'src/shared/const/paths';
 import { translations } from 'src/shared/const/translations';
 
 const text = translations.pl;
-
-interface LoginData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-}
 
 export const LoginPage = () => {
   return (
@@ -30,7 +23,7 @@ export const LoginPage = () => {
       <Typography component="h1" variant="h6" marginBottom={3}>
         {text.authentication.login}
       </Typography>
-      <Login />
+      <LoginForm />
       <Typography marginTop={3} variant="body2">
         {`${text.authentication.loginRegisterText} `}
         <Link
