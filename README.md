@@ -38,3 +38,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 ## Databse
 
 run commaand: docker-compose up -d
+
+## ENV
+
+DATABASE_URL="mysql://admin:dariuszpass@localhost:3306/recipe-book"
