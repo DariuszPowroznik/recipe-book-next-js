@@ -4,6 +4,8 @@ import { ThemeProvider } from '@mui/material/styles';
 import { translations } from 'src/shared/const/translations';
 import darkTheme from 'src/theme/theme';
 
+import Providers from './providers';
+
 const text = translations.pl;
 
 export const metadata = {
@@ -17,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <ThemeProvider theme={darkTheme}>
           <CssBaseline />
-          {children}
+          <Providers>{children}</Providers>
         </ThemeProvider>
       </body>
     </html>
