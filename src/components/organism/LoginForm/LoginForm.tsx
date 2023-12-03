@@ -3,10 +3,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TextField, Button } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { z } from 'zod';
 
 import { translations } from 'src/shared/const/translations';
-import { validators } from 'src/shared/validators';
+import { loginSchema } from 'src/shared/schemas/login.schema';
 
 import styled from './Login.module.scss';
 
@@ -19,13 +18,6 @@ export interface LoginFormBean {
   email: string;
 }
 
-const schema = z.object({
-  name: validators.name,
-  surname: validators.surname,
-  password: validators.loginPassword,
-  email: validators.email,
-});
-
 export const LoginForm = () => {
   const {
     register,
@@ -33,7 +25,7 @@ export const LoginForm = () => {
     formState: { errors },
   } = useForm<LoginFormBean>({
     mode: 'onBlur',
-    resolver: zodResolver(schema),
+    resolver: zodResolver(loginSchema),
   });
   const onSubmit: SubmitHandler<LoginFormBean> = data => console.log(data);
 
@@ -48,7 +40,6 @@ export const LoginForm = () => {
         autoComplete="email"
         error={!!errors?.email}
         helperText={errors?.email?.message}
-        autoFocus
         required
         {...register('email')}
       />

@@ -6,10 +6,7 @@ import http from 'src/utils/axiosConfig';
 import { RegisterFormBean } from './RegisterForm';
 
 const postRegister = (registerData: RegisterFormBean) =>
-  http
-    .post(apiPaths.register, registerData)
-    .then(res => console.log(res))
-    .catch(err => console.log(err));
+  http.post(apiPaths.register, registerData).then(res => res);
 
 export const useRegisterCommand = () =>
   useMutation({
