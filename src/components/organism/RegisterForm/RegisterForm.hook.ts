@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 
+import http from 'src/configs/axiosConfig';
 import { apiPaths } from 'src/shared/const/apiPaths';
-import http from 'src/utils/axiosConfig';
 
 import { RegisterFormBean } from './RegisterForm';
 

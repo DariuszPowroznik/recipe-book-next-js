@@ -4,7 +4,7 @@ interface SnackbarProps {
   children: string;
   type?: AlertColor;
   open: boolean;
-  handleClose: () => void;
+  handleClose: VoidFunction;
 }
 
 export function Snackbar({ children, type, open, handleClose }: SnackbarProps) {
