@@ -13,6 +13,7 @@ export function Snackbar({ children, type, open, handleClose }: SnackbarProps) {
       open={open}
       autoHideDuration={6000}
       onClose={handleClose}
+      sx={{ mt: 4 }}
       anchorOrigin={{
         vertical: 'bottom',
         horizontal: 'center',

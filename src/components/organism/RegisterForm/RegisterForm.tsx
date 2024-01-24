@@ -4,14 +4,14 @@ import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoadingButton } from '@mui/lab';
-import { Typography, TextField, AlertColor, Alert } from '@mui/material';
-import { AxiosError } from 'axios';
+import { Typography, TextField, AlertColor } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 import { Snackbar } from 'src/components/molecules';
 import { translations } from 'src/shared/const/translations';
 import { registerSchema } from 'src/shared/schemas/register.schema';
 
+import { onError, onSuccess } from './helpers/registerForm.helpers';
 import { useRegisterCommand } from '../RegisterForm/RegisterForm.hook';
 
 const text = translations.pl;
@@ -39,32 +39,12 @@ export const RegisterForm = () => {
   const { mutate, isPending } = useRegisterCommand();
   const onSubmit: SubmitHandler<RegisterFormBean> = data =>
     mutate(data, {
-      onSuccess: data => {
-        if (data.status === 201) {
-          reset();
-          setOpen(true);
-          setMessageType('success');
-          setMessage(text.authentication.registerSuccess);
-        } else {
-          setOpen(true);
-          setMessageType('error');
-          setMessage(text.authentication.registerError);
-        }
-      },
-      onError: (error: unknown) => {
-        const axiosError = error as AxiosError;
-        setOpen(true);
-        setMessageType('error');
-        setMessage(
-          axiosError && axiosError.isAxiosError && axiosError.response?.status === 409
-            ? text.authentication.registerDuplicated
-            : text.authentication.registerError
-        );
-      },
+      onSuccess: data => onSuccess({ data, reset, setOpen, setMessage, setMessageType }),
+      onError: (error: unknown) => onError({ error, setOpen, setMessage, setMessageType }),
     });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} noValidate>
       <TextField
         margin="normal"
         fullWidth
@@ -126,10 +106,6 @@ export const RegisterForm = () => {
       <Snackbar open={open} type={messageType} handleClose={() => setOpen(false)}>
         {message}
       </Snackbar>
-      <Alert severity="error">This is an error message!</Alert>
-      <Alert severity="warning">This is a warning message!</Alert>
-      <Alert severity="info">This is an information message!</Alert>
-      <Alert severity="success">This is a success message!</Alert>
     </form>
   );
 };
