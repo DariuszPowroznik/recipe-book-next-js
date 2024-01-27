@@ -4,14 +4,10 @@ import { apiErrorHandler } from 'src/utils/apiErrorHandler';
 import withErrorHandler from 'src/utils/withErrorHandler';
 
 export const POST = withErrorHandler(async (request: Request) => {
-  try {
-    const payload = await request.json();
-    const parsedData = await registerValidation(payload);
-    await registerService(parsedData);
+  const payload = await request.json();
+  const parsedData = await registerValidation(payload);
+  await registerService(parsedData);
 
-    // TODO: Extract messages to const
-    return new Response(JSON.stringify({ message: 'User added' }), { status: 201 });
-  } catch (error) {
-    return apiErrorHandler(error);
-  }
+  // TODO: Extract messages to const
+  return new Response(JSON.stringify({ message: 'User added' }), { status: 201 });
 });
