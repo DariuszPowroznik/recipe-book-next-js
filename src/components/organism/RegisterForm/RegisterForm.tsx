@@ -12,7 +12,7 @@ import { translations } from 'src/shared/const/translations';
 import { registerSchema } from 'src/shared/schemas/register.schema';
 
 import { onError, onSuccess } from './helpers/registerForm.helpers';
-import { useRegisterCommand } from '../RegisterForm/RegisterForm.hook';
+import { useRegisterMutation } from './hooks/registerForm.hook';
 
 const text = translations.pl;
 
@@ -36,7 +36,7 @@ export const RegisterForm = () => {
     mode: 'onBlur',
     resolver: zodResolver(registerSchema),
   });
-  const { mutate, isPending } = useRegisterCommand();
+  const { mutate, isPending } = useRegisterMutation();
   const onSubmit: SubmitHandler<RegisterFormBean> = data =>
     mutate(data, {
       onSuccess: data => onSuccess({ data, reset, setOpen, setMessage, setMessageType }),
