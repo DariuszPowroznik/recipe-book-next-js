@@ -9,13 +9,6 @@ import { translations } from 'src/shared/const/translations';
 
 const text = translations.pl;
 
-interface LoginData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-}
-
 export const LoginPage = () => {
   return (
     <Box

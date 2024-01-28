@@ -1,42 +1,70 @@
 'use client';
 
-import { Typography, TextField, Button, Link } from '@mui/material';
+import { useState } from 'react';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { LoadingButton } from '@mui/lab';
+import { Typography, TextField, AlertColor } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
+import { Snackbar } from 'src/components/molecules';
 import { translations } from 'src/shared/const/translations';
+import { registerSchema } from 'src/shared/schemas/register.schema';
+
+import { onError, onSuccess } from './helpers/registerForm.helpers';
+import { useRegisterMutation } from './hooks/registerForm.hook';
 
 const text = translations.pl;
 
-interface RegisterFormBean {
-  firstName: string;
-  lastName: string;
-  email: string;
+export interface RegisterFormBean {
+  name: string;
+  surname: string;
   password: string;
+  email: string;
 }
 
 export const RegisterForm = () => {
-  const { register, handleSubmit } = useForm<RegisterFormBean>();
-  const onSubmit: SubmitHandler<RegisterFormBean> = data => console.log(data);
+  const [open, setOpen] = useState(false);
+  const [messageType, setMessageType] = useState<AlertColor>();
+  const [message, setMessage] = useState('');
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<RegisterFormBean>({
+    mode: 'onBlur',
+    resolver: zodResolver(registerSchema),
+  });
+  const { mutate, isPending } = useRegisterMutation();
+  const onSubmit: SubmitHandler<RegisterFormBean> = data =>
+    mutate(data, {
+      onSuccess: data => onSuccess({ data, reset, setOpen, setMessage, setMessageType }),
+      onError: (error: unknown) => onError({ error, setOpen, setMessage, setMessageType }),
+    });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} noValidate>
       <TextField
         margin="normal"
         fullWidth
-        id="firstName"
+        id="name"
         size="medium"
         label={text.common.name}
-        autoComplete="firstName"
-        autoFocus
-        {...register('firstName')}
+        autoComplete="name"
+        error={!!errors?.name}
+        helperText={errors?.name?.message}
+        {...register('name')}
       />
       <TextField
         margin="normal"
         fullWidth
-        id="lastName"
+        id="surname"
         label={text.common.surname}
-        autoComplete="lastName"
-        {...register('lastName')}
+        autoComplete="surname"
+        error={!!errors?.surname}
+        helperText={errors?.surname?.message}
+        {...register('surname')}
       />
       <TextField
         margin="normal"
@@ -45,6 +73,9 @@ export const RegisterForm = () => {
         label={text.common.email}
         type="email"
         autoComplete="email"
+        error={!!errors?.email}
+        helperText={errors?.email?.message}
+        required
         {...register('email')}
       />
       <TextField
@@ -54,14 +85,27 @@ export const RegisterForm = () => {
         label={text.authentication.password}
         type="password"
         autoComplete="password"
+        error={!!errors?.password}
+        helperText={errors?.password?.message}
+        required
         {...register('password')}
       />
       <Typography component="p" variant="body2" marginTop={3} marginBottom={3}>
         {text.authentication.registerHelpText}
       </Typography>
-      <Button type="submit" variant="contained" fullWidth size="large">
+      <LoadingButton
+        type="submit"
+        variant="contained"
+        fullWidth
+        size="large"
+        disabled={isPending}
+        loading={isPending}
+      >
         {text.authentication.registerButton}
-      </Button>
+      </LoadingButton>
+      <Snackbar open={open} type={messageType} handleClose={() => setOpen(false)}>
+        {message}
+      </Snackbar>
     </form>
   );
 };

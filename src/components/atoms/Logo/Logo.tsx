@@ -9,7 +9,7 @@ export type LogoProps = {
   big?: boolean;
 };
 
-export async function Logo({ big }: LogoProps) {
+export function Logo({ big }: LogoProps) {
   return (
     <Link href={paths.home} className={`${styled.wrapper} ${big ? styled.big : ''}`}>
       <span className={styled.prefix}>{translations.pl.appName.firstPart}</span>

@@ -27,6 +27,15 @@ export const translations = {
       registerLoginText: 'Masz już konto?',
       registerHelpText:
         'Po rejestracji musisz poczekać na aktywację konta przez administratorów serwisu.',
+      registerSuccess: 'Nowy użytkownik dodany. Poczekaj na aktywację konta.',
+      registerError: 'Wystąpił błąd. Nie dodano użytkownika.',
+      registerDuplicated: 'Nie można utworzyć użytkownika na podane dane.',
+    },
+    validations: {
+      emptyField: 'To pole jest wymagane',
+      wrongPassword: 'Niepoprawne hasło',
+      toLongString: 'Zbyt długa nazwa',
+      wrongEmail: 'Niepoprawny adres email',
     },
   },
 };

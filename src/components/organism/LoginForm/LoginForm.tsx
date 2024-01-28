@@ -1,23 +1,32 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { TextField, Button } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 import { translations } from 'src/shared/const/translations';
+import { loginSchema } from 'src/shared/schemas/login.schema';
 
 import styled from './Login.module.scss';
 
 const text = translations.pl;
 
-interface LoginFormBean {
-  firstName: string;
-  lastName: string;
-  email: string;
+export interface LoginFormBean {
+  name: string;
+  surname: string;
   password: string;
+  email: string;
 }
 
 export const LoginForm = () => {
-  const { register, handleSubmit } = useForm<LoginFormBean>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormBean>({
+    mode: 'onBlur',
+    resolver: zodResolver(loginSchema),
+  });
   const onSubmit: SubmitHandler<LoginFormBean> = data => console.log(data);
 
   return (
@@ -29,7 +38,9 @@ export const LoginForm = () => {
         label={text.common.email}
         type="email"
         autoComplete="email"
-        autoFocus
+        error={!!errors?.email}
+        helperText={errors?.email?.message}
+        required
         {...register('email')}
       />
       <TextField
@@ -38,7 +49,9 @@ export const LoginForm = () => {
         id="password"
         label={text.authentication.password}
         type="password"
-        autoComplete="password"
+        error={!!errors?.password}
+        helperText={errors?.password?.message}
+        required
         {...register('password')}
       />
       <Button className={styled.marginTop} type="submit" variant="contained" fullWidth size="large">
